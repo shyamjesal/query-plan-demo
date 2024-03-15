@@ -1,10 +1,12 @@
 import json
 from tableauhyperapi import HyperProcess, Telemetry, CreateMode, Connection, TableDefinition, SqlType, NOT_NULLABLE
-
+import duckdb
+import os
+import time
 
 query_text = None
-with open("query1.sql", "r") as r:
-    query_text = r.read()
+with open("query1.sql", "r") as f:
+    query_text = f.read()
 
 # Hyper DB
 hyper_parameters =  {
@@ -22,8 +24,33 @@ with HyperProcess(telemetry=Telemetry.DO_NOT_SEND_USAGE_DATA_TO_TABLEAU, paramet
         with Connection(hyper.endpoint, hyper_location, CreateMode.CREATE_IF_NOT_EXISTS) as connection:
             query_pre_json = connection.execute_list_query(explain_options + query_text)[0][0]
 
-print(query_pre_json)
-
 query_json = json.loads(query_pre_json)
-
 print(query_json)
+
+# Duck DB
+duckdb_output_name = "query1_duck_db_explain.json"
+
+if os.path.exists(duckdb_output_name):
+    os.remove(duckdb_output_name)
+
+explain_commands = ["PRAGMA enable_profiling='json';",
+    "PRAGMA profile_output='" + str(duckdb_output_name) + "';",
+    "PRAGMA explain_output='ALL';",
+    "SET explain_output='all';",
+    "SET threads TO " + str(1) + ";"]
+    
+duck_location = "duckdb_tpch.duckdb"
+connection = duckdb.connect(database=duck_location, read_only=False)
+
+for command in explain_commands:
+    connection.execute(command).fetchall()
+    
+connection.execute(query_text).fetchall()
+
+with open(duckdb_output_name, "r") as f:
+    query_json = json.load(f)
+    
+print(query_json)
+
+if os.path.exists(duckdb_output_name):
+    os.remove(duckdb_output_name)

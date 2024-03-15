@@ -1,3 +1,5 @@
 cffi==1.16.0
+duckdb==0.3.4
+numpy==1.24.4
 pycparser==2.21
 tableauhyperapi==0.0.18825
