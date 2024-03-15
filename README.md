@@ -2,7 +2,7 @@
 
 Demonstration of how to get query plans from Hyper DB and Duck DB
 
-# Requires
+## Requires
 
 - Databases already configured
 
@@ -12,4 +12,10 @@ Demonstration of how to get query plans from Hyper DB and Duck DB
 python3 -m venv qep_demo
 source qep_demo/bin/activate
 pip install -r requirements.txt
+```
+
+## Usage
+
+```bash
+python3 demo.py
 ```
