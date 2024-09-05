@@ -1,0 +1,397 @@
+{
+    "operator": {
+        "operator": "executiontarget",
+        "cardinality": 10,
+        "operatorId": 1,
+        "selectivity": 0,
+        "left": null,
+        "right": null,
+        "input": {
+            "operator": "sort",
+            "cardinality": 10,
+            "operatorId": 2,
+            "selectivity": 0,
+            "left": null,
+            "right": null,
+            "input": {
+                "operator": "aggregate",
+                "cardinality": 10,
+                "operatorId": 3,
+                "selectivity": 0,
+                "left": null,
+                "right": null,
+                "input": null,
+                "debugName": null,
+                "values": null,
+                "limit": 0,
+                "restrictions": null,
+                "AggExpressions": null,
+                "aggregates": null
+            },
+            "debugName": null,
+            "values": null,
+            "limit": 0,
+            "restrictions": null,
+            "AggExpressions": null,
+            "aggregates": null
+        },
+        "debugName": null,
+        "values": null,
+        "limit": 0,
+        "restrictions": null,
+        "AggExpressions": null,
+        "aggregates": null
+    },
+    "newOperatorName": "executiontarget-sort-aggregate",
+    "operatorId": 1,
+    "numberOfWorkers": 0,
+    "workerMemory": 0,
+    "left": null,
+    "right": null,
+    "input": {
+        "operator": {
+            "operator": "semi_aggregate",
+            "cardinality": 10,
+            "operatorId": 3,
+            "selectivity": 0,
+            "left": null,
+            "right": null,
+            "input": {
+                "operator": "leftsemijoin",
+                "cardinality": 140803,
+                "operatorId": 4,
+                "selectivity": 0,
+                "left": null,
+                "right": null,
+                "input": null,
+                "debugName": null,
+                "values": null,
+                "limit": 0,
+                "restrictions": null,
+                "AggExpressions": null,
+                "aggregates": null
+            },
+            "debugName": null,
+            "values": null,
+            "limit": 0,
+            "restrictions": null,
+            "AggExpressions": null,
+            "aggregates": null
+        },
+        "newOperatorName": "semi_aggregate-leftsemijoin",
+        "operatorId": 3,
+        "numberOfWorkers": 0,
+        "workerMemory": 0,
+        "left": {
+            "operator": {
+                "operator": "tablescan",
+                "cardinality": 162000,
+                "operatorId": 5,
+                "selectivity": 0.054,
+                "left": null,
+                "right": null,
+                "input": null,
+                "debugName": {
+                    "classification": "nonsensitive",
+                    "value": "orders"
+                },
+                "values": [
+                    {
+                        "name": "o_orderkey",
+                        "type": [
+                            "Integer"
+                        ],
+                        "iu": [
+                            "v3"
+                        ]
+                    },
+                    {
+                        "name": "o_custkey",
+                        "type": [
+                            "Integer"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "o_orderstatus",
+                        "type": [
+                            "Varchar"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "o_totalprice",
+                        "type": [
+                            "Numeric"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "o_orderdate",
+                        "type": [
+                            "Date"
+                        ],
+                        "iu": [
+                            "v4"
+                        ]
+                    },
+                    {
+                        "name": "o_orderpriority",
+                        "type": [
+                            "Varchar"
+                        ],
+                        "iu": [
+                            "v5"
+                        ]
+                    },
+                    {
+                        "name": "o_clerk",
+                        "type": [
+                            "Varchar"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "o_shippriority",
+                        "type": [
+                            "Integer"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "o_comment",
+                        "type": [
+                            "Varchar"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    }
+                ],
+                "limit": 0,
+                "restrictions": [
+                    {
+                        "attribute": 4,
+                        "mode": "[)",
+                        "value": {
+                            "expression": "const",
+                            "value": {
+                                "type": [
+                                    "Date"
+                                ],
+                                "value": 2449170
+                            },
+                            "left": null,
+                            "right": null,
+                            "iu": ""
+                        },
+                        "value2": {
+                            "expression": "const",
+                            "value": {
+                                "type": [
+                                    "Date"
+                                ],
+                                "value": 2449262
+                            },
+                            "left": null,
+                            "right": null,
+                            "iu": ""
+                        }
+                    }
+                ],
+                "AggExpressions": null,
+                "aggregates": null
+            },
+            "newOperatorName": "tablescan",
+            "operatorId": 5,
+            "numberOfWorkers": 0,
+            "workerMemory": 0,
+            "left": null,
+            "right": null,
+            "input": null
+        },
+        "right": {
+            "operator": {
+                "operator": "tablescan",
+                "cardinality": 11997520,
+                "operatorId": 6,
+                "selectivity": 0.999592,
+                "left": null,
+                "right": null,
+                "input": null,
+                "debugName": {
+                    "classification": "nonsensitive",
+                    "value": "lineitem"
+                },
+                "values": [
+                    {
+                        "name": "l_orderkey",
+                        "type": [
+                            "Integer"
+                        ],
+                        "iu": [
+                            "v6"
+                        ]
+                    },
+                    {
+                        "name": "l_partkey",
+                        "type": [
+                            "Integer"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "l_suppkey",
+                        "type": [
+                            "Integer"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "l_linenumber",
+                        "type": [
+                            "Integer"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "l_quantity",
+                        "type": [
+                            "Numeric"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "l_extendedprice",
+                        "type": [
+                            "Numeric"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "l_discount",
+                        "type": [
+                            "Numeric"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "l_tax",
+                        "type": [
+                            "Numeric"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "l_returnflag",
+                        "type": [
+                            "Varchar"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "l_linestatus",
+                        "type": [
+                            "Varchar"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "l_shipdate",
+                        "type": [
+                            "Date"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "l_commitdate",
+                        "type": [
+                            "Date"
+                        ],
+                        "iu": [
+                            "v7"
+                        ]
+                    },
+                    {
+                        "name": "l_receiptdate",
+                        "type": [
+                            "Date"
+                        ],
+                        "iu": [
+                            "v8"
+                        ]
+                    },
+                    {
+                        "name": "l_shipinstruct",
+                        "type": [
+                            "Varchar"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "l_shipmode",
+                        "type": [
+                            "Varchar"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    },
+                    {
+                        "name": "l_comment",
+                        "type": [
+                            "Varchar"
+                        ],
+                        "iu": [
+                            ""
+                        ]
+                    }
+                ],
+                "limit": 0,
+                "restrictions": null,
+                "AggExpressions": null,
+                "aggregates": null
+            },
+            "newOperatorName": "tablescan",
+            "operatorId": 6,
+            "numberOfWorkers": 0,
+            "workerMemory": 0,
+            "left": null,
+            "right": null,
+            "input": null
+        },
+        "input": null
+    }
+}

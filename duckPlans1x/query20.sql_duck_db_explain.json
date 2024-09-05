@@ -1,0 +1,289 @@
+{
+   "name":  "Query", 
+   "result": 0.147890,
+   "timing": 0.147890,
+   "cardinality": 0,
+   "extra-info": "-- TPC-H Query 20\nselect\n        s_name,\n        s_address\nfrom\n        supplier,\n        nation\nwhere\n        s_suppkey in (\n                select\n                        ps_suppkey\n                from\n                        partsupp\n                where\n                        ps_partkey in (\n                                select\n                                        p_partkey\n                                from\n                                        part\n                                where\n                                        p_name like 'forest%'\n                        )\n                        and ps_availqty > (\n                                select\n                                        0.5 * sum(l_quantity)\n                                from\n                                        lineitem\n                                where\n                                        l_partkey = ps_partkey\n                                        and l_suppkey = ps_suppkey\n                                        and l_shipdate >= date '1994-01-01'\n                                        and l_shipdate < date '1994-01-01' + interval '1' year\n                        )\n        )\n        and s_nationkey = n_nationkey\n        and n_name = 'CANADA'\norder by\n        s_name\n", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "RESULT_COLLECTOR",
+      "timing":0.000012,
+      "cardinality":0,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "ORDER_BY",
+         "timing":0.000089,
+         "cardinality":186,
+         "extra_info": "ORDERS:\nsupplier.s_name ASC",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "PROJECTION",
+            "timing":0.000001,
+            "cardinality":186,
+            "extra_info": "s_name\ns_address\n",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "HASH_JOIN",
+               "timing":0.000314,
+               "cardinality":186,
+               "extra_info": "RIGHT_SEMI\n#0 = s_suppkey\n\n[INFOSEPARATOR]\nEC: 400\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":0.000001,
+                  "cardinality":5833,
+                  "extra_info": "ps_suppkey\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "PROJECTION",
+                     "timing":0.000002,
+                     "cardinality":5833,
+                     "extra_info": "#0\n#4\n#5\n",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "FILTER",
+                        "timing":0.000262,
+                        "cardinality":5833,
+                        "extra_info": "(CAST(ps_availqty AS DECIMAL(38,3)) > SUBQUERY)\n[INFOSEPARATOR]\nEC: 800000",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "RIGHT_DELIM_JOIN",
+                           "timing":0.001004,
+                           "cardinality":0,
+                           "extra_info": "RIGHT\nps_partkey IS NOT DISTINCT FROM ps_partkey\nps_suppkey IS NOT DISTINCT FROM ps_suppkey\n\n[INFOSEPARATOR]\nEC: 800000\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":0.005339,
+                              "cardinality":8508,
+                              "extra_info": "SEMI\nps_partkey = #0\n\n[INFOSEPARATOR]\nEC: 800000\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "SEQ_SCAN ",
+                                 "timing":0.004715,
+                                 "cardinality":800000,
+                                 "extra_info": "partsupp\n[INFOSEPARATOR]\nps_partkey\nps_availqty\nps_suppkey\n[INFOSEPARATOR]\nEC: 800000",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+,
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.000001,
+                                 "cardinality":2127,
+                                 "extra_info": "p_partkey\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "FILTER",
+                                    "timing":0.000770,
+                                    "cardinality":2127,
+                                    "extra_info": "prefix(p_name, 'forest')\n[INFOSEPARATOR]\nEC: 8000",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "SEQ_SCAN ",
+                                       "timing":0.015406,
+                                       "cardinality":2127,
+                                       "extra_info": "part\n[INFOSEPARATOR]\np_name\np_partkey\n[INFOSEPARATOR]\nFilters: p_name>=forest AND p_name<foresu AND p_name IS NOT NULL\n\n[INFOSEPARATOR]\nEC: 40000",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "HASH_JOIN",
+                              "timing":0.000356,
+                              "cardinality":8508,
+                              "extra_info": "RIGHT\nps_partkey IS NOT DISTINCT FROM ps_partkey\nps_suppkey IS NOT DISTINCT FROM ps_suppkey\n\n[INFOSEPARATOR]\nEC: 800000\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "PROJECTION",
+                                 "timing":0.000116,
+                                 "cardinality":5843,
+                                 "extra_info": "(0.5 * sum(l_quantity))\nps_partkey\nps_suppkey\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":0.000008,
+                                    "cardinality":5843,
+                                    "extra_info": "#0\n__internal_decompress_integral_integer(#1, 1)\n#2\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "HASH_GROUP_BY",
+                                       "timing":0.001312,
+                                       "cardinality":5843,
+                                       "extra_info": "#0\n#1\nsum(#2)",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "PROJECTION",
+                                          "timing":0.000004,
+                                          "cardinality":9741,
+                                          "extra_info": "ps_partkey\nps_suppkey\nl_quantity\n",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "PROJECTION",
+                                             "timing":0.000048,
+                                             "cardinality":9741,
+                                             "extra_info": "#0\n__internal_compress_integral_usmallint(#1, 1)\n#2\n#3\n#4\n",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                              {
+                                                "name": "HASH_JOIN",
+                                                "timing":0.020046,
+                                                "cardinality":9741,
+                                                "extra_info": "INNER\nl_partkey = ps_partkey\nl_suppkey = ps_suppkey\n\n[INFOSEPARATOR]\nEC: 1200243\n",
+                                                "timings": [
+                                                ],
+                                                "children": [
+                                                 {
+                                                   "name": "SEQ_SCAN ",
+                                                   "timing":0.092982,
+                                                   "cardinality":909455,
+                                                   "extra_info": "lineitem\n[INFOSEPARATOR]\nl_partkey\nl_suppkey\nl_quantity\n[INFOSEPARATOR]\nFilters: l_shipdate>=1994-01-01 AND l_shipdate<1995-01-01 AND l_shipdate IS NOT NULL\n\n[INFOSEPARATOR]\nEC: 1200243",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                   ]
+                                                 }
+,
+                                                 {
+                                                   "name": "DELIM_SCAN",
+                                                   "timing":0.000000,
+                                                   "cardinality":0,
+                                                   "extra_info": "",
+                                                   "timings": [
+                                                   ],
+                                                   "children": [
+                                                   ]
+                                                 }
+                                                ]
+                                              }
+                                             ]
+                                           }
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+                                 ]
+                               }
+,
+                               {
+                                 "name": "DUMMY_SCAN",
+                                 "timing":0.000000,
+                                 "cardinality":0,
+                                 "extra_info": "",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+,
+                            {
+                              "name": "HASH_GROUP_BY",
+                              "timing":0.000053,
+                              "cardinality":8508,
+                              "extra_info": "#0\n#2",
+                              "timings": [
+                              ],
+                              "children": [
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+,
+                {
+                  "name": "HASH_JOIN",
+                  "timing":0.000046,
+                  "cardinality":412,
+                  "extra_info": "INNER\ns_nationkey = n_nationkey\n\n[INFOSEPARATOR]\nBuild Min: 0\nBuild Max: 24\n\n[INFOSEPARATOR]\nEC: 400\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "SEQ_SCAN ",
+                     "timing":0.000648,
+                     "cardinality":10000,
+                     "extra_info": "supplier\n[INFOSEPARATOR]\ns_suppkey\ns_nationkey\ns_name\ns_address\n[INFOSEPARATOR]\nEC: 10000",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+,
+                   {
+                     "name": "SEQ_SCAN ",
+                     "timing":0.000192,
+                     "cardinality":1,
+                     "extra_info": "nation\n[INFOSEPARATOR]\nn_nationkey\n[INFOSEPARATOR]\nFilters: n_name=CANADA AND n_name IS NOT NULL\n\n[INFOSEPARATOR]\nEC: 1",
+                     "timings": [
+                     ],
+                     "children": [
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

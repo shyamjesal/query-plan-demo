@@ -1,0 +1,196 @@
+{
+   "name":  "Query", 
+   "result": 1.615837,
+   "timing": 1.615837,
+   "cardinality": 0,
+   "extra-info": "-- TPC-H Query 4\n\nselect\n    o_orderpriority,\n    count(*) as order_count\nfrom\n    orders\nwhere\n        o_orderdate >= date '1993-07-01'\n  and o_orderdate < date '1993-10-01'\n  and exists (\n    select\n        *\n    from\n        lineitem\n    where\n            l_orderkey = o_orderkey\n      and l_commitdate < l_receiptdate\n)\ngroup by\n    o_orderpriority\norder by\n    o_orderpriority\n", 
+   "timings": [
+
+   ],
+   "children": [
+    {
+      "name": "RESULT_COLLECTOR",
+      "timing":0.000006,
+      "cardinality":0,
+      "extra_info": "",
+      "timings": [
+      ],
+      "children": [
+       {
+         "name": "PROJECTION",
+         "timing":0.000001,
+         "cardinality":5,
+         "extra_info": "__internal_decompress_string(#0)\n#1\n",
+         "timings": [
+         ],
+         "children": [
+          {
+            "name": "ORDER_BY",
+            "timing":0.000020,
+            "cardinality":5,
+            "extra_info": "ORDERS:\norders.o_orderpriority ASC",
+            "timings": [
+            ],
+            "children": [
+             {
+               "name": "PROJECTION",
+               "timing":0.000000,
+               "cardinality":5,
+               "extra_info": "__internal_compress_string_hugeint(#0)\n#1\n",
+               "timings": [
+               ],
+               "children": [
+                {
+                  "name": "PROJECTION",
+                  "timing":0.000016,
+                  "cardinality":5,
+                  "extra_info": "__internal_decompress_string(#0)\n#1\n",
+                  "timings": [
+                  ],
+                  "children": [
+                   {
+                     "name": "HASH_GROUP_BY",
+                     "timing":0.004674,
+                     "cardinality":5,
+                     "extra_info": "#0\ncount_star()",
+                     "timings": [
+                     ],
+                     "children": [
+                      {
+                        "name": "PROJECTION",
+                        "timing":0.000016,
+                        "cardinality":526040,
+                        "extra_info": "o_orderpriority\n",
+                        "timings": [
+                        ],
+                        "children": [
+                         {
+                           "name": "PROJECTION",
+                           "timing":0.003410,
+                           "cardinality":526040,
+                           "extra_info": "#0\n__internal_compress_string_hugeint(#1)\n",
+                           "timings": [
+                           ],
+                           "children": [
+                            {
+                              "name": "RIGHT_DELIM_JOIN",
+                              "timing":0.087046,
+                              "cardinality":0,
+                              "extra_info": "RIGHT_SEMI\no_orderkey IS NOT DISTINCT FROM o_orderkey\n\n[INFOSEPARATOR]\nEC: 11997210\n",
+                              "timings": [
+                              ],
+                              "children": [
+                               {
+                                 "name": "SEQ_SCAN ",
+                                 "timing":0.131303,
+                                 "cardinality":573671,
+                                 "extra_info": "orders\n[INFOSEPARATOR]\no_orderkey\no_orderpriority\n[INFOSEPARATOR]\nFilters: o_orderdate>=1993-07-01 AND o_orderdate<1993-10-01 AND o_orderdate IS NOT NULL\n\n[INFOSEPARATOR]\nEC: 3000000",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+,
+                               {
+                                 "name": "HASH_JOIN",
+                                 "timing":0.045372,
+                                 "cardinality":526040,
+                                 "extra_info": "RIGHT_SEMI\no_orderkey IS NOT DISTINCT FROM o_orderkey\n\n[INFOSEPARATOR]\nEC: 11997210\n",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                  {
+                                    "name": "PROJECTION",
+                                    "timing":0.000519,
+                                    "cardinality":1450571,
+                                    "extra_info": "o_orderkey\n",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                     {
+                                       "name": "HASH_JOIN",
+                                       "timing":0.541181,
+                                       "cardinality":1450571,
+                                       "extra_info": "INNER\nl_orderkey = o_orderkey\n\n[INFOSEPARATOR]\nEC: 11997210\n",
+                                       "timings": [
+                                       ],
+                                       "children": [
+                                        {
+                                          "name": "FILTER",
+                                          "timing":0.052985,
+                                          "cardinality":37929348,
+                                          "extra_info": "(l_commitdate < l_receiptdate)\n[INFOSEPARATOR]\nEC: 59986052",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                           {
+                                             "name": "SEQ_SCAN ",
+                                             "timing":0.691514,
+                                             "cardinality":59986052,
+                                             "extra_info": "lineitem\n[INFOSEPARATOR]\nl_orderkey\nl_commitdate\nl_receiptdate\n[INFOSEPARATOR]\nEC: 59986052",
+                                             "timings": [
+                                             ],
+                                             "children": [
+                                             ]
+                                           }
+                                          ]
+                                        }
+,
+                                        {
+                                          "name": "DELIM_SCAN",
+                                          "timing":0.000000,
+                                          "cardinality":0,
+                                          "extra_info": "",
+                                          "timings": [
+                                          ],
+                                          "children": [
+                                          ]
+                                        }
+                                       ]
+                                     }
+                                    ]
+                                  }
+,
+                                  {
+                                    "name": "DUMMY_SCAN",
+                                    "timing":0.000000,
+                                    "cardinality":0,
+                                    "extra_info": "",
+                                    "timings": [
+                                    ],
+                                    "children": [
+                                    ]
+                                  }
+                                 ]
+                               }
+,
+                               {
+                                 "name": "HASH_GROUP_BY",
+                                 "timing":0.001672,
+                                 "cardinality":573671,
+                                 "extra_info": "#0",
+                                 "timings": [
+                                 ],
+                                 "children": [
+                                 ]
+                               }
+                              ]
+                            }
+                           ]
+                         }
+                        ]
+                      }
+                     ]
+                   }
+                  ]
+                }
+               ]
+             }
+            ]
+          }
+         ]
+       }
+      ]
+    }
+   ]
+}

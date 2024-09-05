@@ -1,5 +1,8 @@
 qep_demo/
+qep_demo_venv_win/
 hyperdb_tpch.hyper
 hyperd.log
+1/**
+.idea/**
 duckdb_tpch.duckdb
 query1_duck_db_explain.json
